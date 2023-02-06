@@ -2,6 +2,7 @@ package com.paymybuddy.webapp.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,20 +22,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column
     private String pseudo;
 
     @Email
-    @NotNull
+    @NotBlank
     private String email;
 
-    @NotNull
+    @NotBlank
     @Size(min = 8)
     @Column
     private String password;
 
-    @NotNull
+    @NotBlank
     @OneToOne()
     @PrimaryKeyJoinColumn
     private CreditCard creditCard;
@@ -43,8 +44,10 @@ public class User {
     private List<Friendship> friendsList;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_sender")
     private List<Transaction> transactionsUserMade;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_receiver")
     private List<Transaction> transactionsUserReceived;
 }

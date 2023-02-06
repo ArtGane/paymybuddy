@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
 
@@ -23,12 +24,12 @@ public class CreditCard {
 
     @NotNull
     @Column
-    @Size(min = 16, max = 16)
-    private int cardNumbers;
+    @Length(min = 16)
+    private String cardNumbers;
 
     @NotNull
     @Column
-    @Size(min = 4, max = 4)
+    @Size(max = 3)
     private int cryptogram;
 
     @NotNull

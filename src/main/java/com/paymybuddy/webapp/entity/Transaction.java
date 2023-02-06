@@ -1,6 +1,7 @@
 package com.paymybuddy.webapp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,21 +20,25 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "user_sender")
+    @NotNull
     private Long userSender;
 
-    @Column
+    @Column(name = "user_receiver")
+    @NotNull
     private Long userReceiver;
 
     @Column
     private String description;
 
     @Column
+    @NotNull
     private Double amount;
 
     @Column
     private Date date;
 
     @Column
+    @NotNull
     private Double purcent;
 }
