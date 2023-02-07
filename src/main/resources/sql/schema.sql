@@ -33,8 +33,11 @@ CREATE TABLE transaction (
    CONSTRAINT pk_transaction PRIMARY KEY (id)
 );
 
-ALTER TABLE transaction ADD CONSTRAINT FK_TRANSACTION_ON_USER_RECEIVER FOREIGN KEY (user_receiver) REFERENCES user (id);
+--TODO : Pas pareil ? Si oui pourquoi ?
 
+ -- CONSTRAINT fk_sender_ref_user FOREIGN KEY (user_sender) REFERENCES user (id),
+ -- CONSTRAINT fk_receiver_ref_user FOREIGN KEY (user_receiver) REFERENCES user (id)
+ALTER TABLE transaction ADD CONSTRAINT FK_TRANSACTION_ON_USER_RECEIVER FOREIGN KEY (user_receiver) REFERENCES user (id);
 ALTER TABLE transaction ADD CONSTRAINT FK_TRANSACTION_ON_USER_SENDER FOREIGN KEY (user_sender) REFERENCES user (id);
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 

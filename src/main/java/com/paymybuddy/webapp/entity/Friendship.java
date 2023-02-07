@@ -1,9 +1,12 @@
 package com.paymybuddy.webapp.entity;
 
+import com.paymybuddy.webapp.entity.compositekey.FriendshipId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -11,12 +14,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "friendship")
 public class Friendship {
-
     @Id
-    @Column(name = "user_id")
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-    @Id
-    @Column(name = "friend_id")
-    private Long friendId;
+    @EmbeddedId
+    private FriendshipId friendshipId;
 }
