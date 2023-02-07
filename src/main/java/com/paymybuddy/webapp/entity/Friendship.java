@@ -1,23 +1,29 @@
 package com.paymybuddy.webapp.entity;
 
 import com.paymybuddy.webapp.entity.compositekey.FriendshipId;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "friendship")
+@IdClass(FriendshipId.class)
 public class Friendship {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
 
-    @EmbeddedId
-    private FriendshipId friendshipId;
+    @Id
+    @Column(name = "user_id")
+    private Integer userId;
+
+    @Id
+    @Column(name = "friend_id")
+    private Integer friendId;
 }
