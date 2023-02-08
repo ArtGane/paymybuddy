@@ -14,7 +14,7 @@ CREATE TABLE user (
    pseudo VARCHAR(255) NOT NULL,
    email VARCHAR(255) NOT NULL,
    password VARCHAR(255) NOT NULL,
-   credit_card_id BIGINT NOT NULL,
+   credit_card_id BIGINT,
    CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
@@ -33,10 +33,6 @@ CREATE TABLE transaction (
    CONSTRAINT pk_transaction PRIMARY KEY (id)
 );
 
---TODO : Pas pareil ? Si oui pourquoi ?
-
- -- CONSTRAINT fk_sender_ref_user FOREIGN KEY (user_sender) REFERENCES user (id),
- -- CONSTRAINT fk_receiver_ref_user FOREIGN KEY (user_receiver) REFERENCES user (id)
 ALTER TABLE transaction ADD CONSTRAINT FK_TRANSACTION_ON_USER_RECEIVER FOREIGN KEY (user_receiver) REFERENCES user (id);
 ALTER TABLE transaction ADD CONSTRAINT FK_TRANSACTION_ON_USER_SENDER FOREIGN KEY (user_sender) REFERENCES user (id);
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
