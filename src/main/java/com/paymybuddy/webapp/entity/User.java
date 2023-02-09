@@ -50,7 +50,6 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-//    @NotBlank
     @OneToOne()
     @PrimaryKeyJoinColumn
     private CreditCard creditCard;
