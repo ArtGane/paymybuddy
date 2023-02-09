@@ -39,7 +39,7 @@ public class RegisterController {
             return new ModelAndView("register");
         }
 
-        // Creating the user if every fields from UserDto have been validated
+        // Creating the user if every fields from userRegistration have been validated
         User user = new User();
         user.setPseudo(userRegistration.getPseudo());
         user.setEmail(userRegistration.getEmail());

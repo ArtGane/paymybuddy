@@ -4,6 +4,8 @@ import com.paymybuddy.webapp.entity.User;
 import com.paymybuddy.webapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,19 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+
+    public User getLoggedUser() {
+        String email = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        Object user = context.getAuthentication().getPrincipal();
+        if (user instanceof UserDetails) {
+            email = ((UserDetails) user).getUsername();
+        } else {
+            email = user.toString();
+        }
+
+        return userRepository.findUserByEmail(email);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
