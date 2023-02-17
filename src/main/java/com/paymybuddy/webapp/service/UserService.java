@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserService implements UserDetailsService {
@@ -33,9 +35,21 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email);
     }
 
+    public User findUserById(Long id) {
+        User user = userRepository.findUserById(id);
+        if (user != null) {
+            return user;
+        }
+        return null;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(email);
+       /* List<User> contact = user.getContact();
+        contact.add(new User());
+        user.setContact(contact);
+        userRepository.save(user);*/
         if (user != null) {
             return new User(user);
         }
@@ -49,6 +63,7 @@ public class UserService implements UserDetailsService {
             // Every password will be crypt because of security
             String cryptPass = new BCryptPasswordEncoder().encode(password);
             user.setPassword(cryptPass);
+
 
             userRepository.save(user);
             log.info("User " + user.getPseudo() + " est bien enregistré dans la base de données");

@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -50,12 +52,17 @@ public class User implements UserDetails {
     @Column
     private String password;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private CreditCard creditCard;
 
-    @OneToMany
-    private List<Friendship> friendsList;
+    private double balance;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name ="contact",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "contact_id"))
+    private List<User> contact; // Table de jointure
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_sender")
