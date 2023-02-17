@@ -29,7 +29,7 @@ CREATE TABLE transaction (
    user_receiver BIGINT NOT NULL,
    `description` VARCHAR(255) NULL,
    amount DOUBLE NOT NULL,
-   creation_date datetime NULL,
+   creation_date date NULL,
    purcent DOUBLE NOT NULL,
    CONSTRAINT pk_transaction PRIMARY KEY (id)
 );
