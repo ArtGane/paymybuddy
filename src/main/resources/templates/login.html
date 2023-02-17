@@ -13,7 +13,7 @@
 <section class="forms-section">
   <div class="forms">
     <div class="form-wrapper is-active">
-      <form class="form form-login" method="get" th:action="@{/login}" th:object="${userLogin}">
+      <form class="form form-login" method="post" th:action="@{/login}" th:object="${userLogin}">
         <fieldset>
           <legend>Please, enter your email and password for login.</legend>
           <div class="input-block">
@@ -25,7 +25,7 @@
             <input th:field="*{password}" id="password" type="password" required>
           </div>
         </fieldset>
-        <button type="submit" class="btn-login">Login</button>
+        <button type="submit" class="btn-login" th:href="@{/creditcard}">Login</button>
       </form>
     </div>
     <div class="form-wrapper">

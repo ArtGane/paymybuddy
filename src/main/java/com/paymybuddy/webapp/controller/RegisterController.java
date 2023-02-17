@@ -1,9 +1,8 @@
 package com.paymybuddy.webapp.controller;
 
 import com.paymybuddy.webapp.entity.User;
-import com.paymybuddy.webapp.model.UserRegistration;
+import com.paymybuddy.webapp.dto.UserRegistration;
 import com.paymybuddy.webapp.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -39,12 +38,11 @@ public class RegisterController {
             return new ModelAndView("register");
         }
 
-        // Creating the user if every fields from UserDto have been validated
+        // Creating the user if every fields from userRegistration have been validated
         User user = new User();
         user.setPseudo(userRegistration.getPseudo());
         user.setEmail(userRegistration.getEmail());
 
-        //TODO : rajouter if pour user password confirmation
         user.setPassword(userRegistration.getPassword());
 
         userService.createUser(user);

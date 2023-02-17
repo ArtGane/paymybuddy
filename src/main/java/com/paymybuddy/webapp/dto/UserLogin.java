@@ -1,17 +1,14 @@
-package com.paymybuddy.webapp.model;
+package com.paymybuddy.webapp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistration {
+@NoArgsConstructor
+public class UserLogin {
 
-    private String pseudo;
     private String email;
     private String password;
-    private String passwordConfirmation;
-
 }

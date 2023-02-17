@@ -1,6 +1,6 @@
 package com.paymybuddy.webapp.controller;
 
-import com.paymybuddy.webapp.model.UserLogin;
+import com.paymybuddy.webapp.dto.UserLogin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;

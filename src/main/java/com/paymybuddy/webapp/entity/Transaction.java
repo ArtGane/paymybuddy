@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Data
@@ -41,9 +41,10 @@ public class Transaction {
     private Double amount;
 
     @Column
-    private Date date;
+    private Date creationDate;
 
     @Column
     @NotNull
     private Double purcent;
+
 }
