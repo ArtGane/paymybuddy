@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,7 +21,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
 
     public User getLoggedUser() {
         String email = null;
@@ -35,6 +35,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email);
     }
 
+    public User findUserByMail(String mail) {
+        User user = userRepository.findUserByEmail(mail);
+        if (user != null) {
+            return user;
+        }
+        return null;
+    }
+
     public User findUserById(Long id) {
         User user = userRepository.findUserById(id);
         if (user != null) {
@@ -46,10 +54,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(email);
-       /* List<User> contact = user.getContact();
-        contact.add(new User());
-        user.setContact(contact);
-        userRepository.save(user);*/
         if (user != null) {
             return new User(user);
         }
@@ -72,4 +76,47 @@ public class UserService implements UserDetailsService {
             log.error("User non enregistré dans la base de données");
         }
     }
+
+    public boolean isAnExistingMail(String mail) {
+        return (userRepository.findUserByEmail(mail) != null);
+    }
+
+    public boolean addContactByEmail(Long userId, String contactEmail) {
+        User user = userRepository.findUserById(userId);
+        User contact = userRepository.findUserByEmail(contactEmail);
+        List<User> contacts = user.getContact();
+
+        if (isAnExistingMail(contactEmail)) {
+            if (!user.equals(contact)) {
+                if (!contacts.contains(contact.getId())) {
+                    contacts.add(contact);
+                    user.setContact(contacts);
+                    userRepository.save(user);
+                    return true;
+                }
+                throw new UsernameNotFoundException("You are already connected with this user");
+            }
+            throw new UsernameNotFoundException("You can't add yourself");
+        }
+        throw new UsernameNotFoundException("Your buddy email isn't recognize in your data base");
+    }
+
+    public boolean deleteContact(Long userId, Long contactId) {
+
+        User currentUser = getLoggedUser();
+        User contactUser = userRepository.findUserById(contactId);
+
+        List<User> contacts = currentUser.getContact();
+
+        if (contacts.contains(contactUser)) {
+            contacts.remove(contactUser);
+            currentUser.setContact(contacts);
+            userRepository.save(currentUser);
+            log.info("User {} delete {}", userId, contactId);
+            return true;
+        }
+
+        return false;
+    }
+
 }
