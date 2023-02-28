@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+<head>
+    <title>Transaction</title>
+    <div th:insert="frag/begin :: style"></div>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-6 offset-3 p-3 mt-3 border text-center">
+            Transaction
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 offset-3 p-3 border bg-light">
+            <form method="post" th:action="@{/process-transaction}" th:object="${transactionDto}">
+
+                <input type="hidden" id="receiverId" name="receiverId" th:value="${receiverId}">
+
+                <!-- To -->
+                <div class="mb-3">
+                    <span class="col-2 fw-semibold">To : </span>
+                    <span class="col-6" th:text="${contactPseudo}"></span>
+                </div>
+
+                <!-- Amount -->
+                <div class="mb-3">
+                    <span class="col-2 fw-semibold">Amount : </span>
+                    <span class="col-6" th:text="${amountToTransfer} + ' €'"></span>
+                    <input type="hidden" id="amount" name="amount" th:value="${amountToTransfer}">
+                </div>
+
+                <!-- Purcent -->
+                <div class="mb-3">
+                    <span class="col-2 fw-semibold">Purcent : </span>
+                    <span class="col-6" th:text="${purcent} + ' €'"></span>
+                </div>
+
+                <!-- Total -->
+                <div class="mb-3">
+                    <span class="col-2 fw-semibold">Total : </span>
+                    <span class="col-6" th:text="${totalAmount} + ' €'"></span>
+                </div>
+
+                <!-- New balance -->
+                <div class="mb-3">
+                    <span class="col-2 fw-semibold">Balance after payment : </span>
+                    <span class="col-6" th:text="${balanceAfterPayment} + ' €'"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description">Description <small>(150 characters maximum)</small> : </label>
+                    <input th:field="*{description}" class="form-control" type="text" id="description"
+                           name="description" minlength="1" maxlength="150" size="50">
+                    <small th:errors="*{description}" class="text-danger">Please set a description</small>
+                </div>
+
+                <div class="row">
+                    <a class="offset-1 col-4 btn btn-danger" th:href="@{/}" role="button">Cancel</a>
+                    <button type="submit" class="offset-2 col-4 btn buddy-btn-green">Pay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

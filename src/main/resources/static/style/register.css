@@ -1,0 +1,12 @@
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.form-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
