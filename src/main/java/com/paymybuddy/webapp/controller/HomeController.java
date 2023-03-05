@@ -79,29 +79,22 @@ public class HomeController {
     public ModelAndView beginTransaction(@Valid TransactionCreatorDto transactionCreatorDto, BindingResult bindingResult,
                                          RedirectAttributes redirectAttributes) {
 
-        // Get current logged user
         User user = userService.getLoggedUser();
         Long userId = user.getId();
         List<User> contactList = user.getContact();
 
-        // Add some information in the model
         Map<String, Object> model = new HashMap<>();
 
-        // Logged user related datas
         model.put("userId", user.getId());
         model.put("pseudo", user.getPseudo());
         model.put("balance", user.getBalance());
 
-        // The userService is used in the index.html page to transform raw datas
         model.put("userService", userService);
-        // Creating an utility class InstantFormatter to format the date displayed
         model.put("instantFormatter", new InstantFormatter());
 
-        // Connections related datas
         model.put("contactList", contactList);
         model.put("hasContact", !contactList.isEmpty());
 
-        // Calculate the number of pages to show for the user
         List<Transaction> transactions = transactionService.getUserTransactionsPage(userId, itemsPerPages);
         Integer numberOfTransactions = transactionService.getCountOfTransactionsForUserId(userId);
 
@@ -109,23 +102,17 @@ public class HomeController {
         model.put("hasTransactions", numberOfTransactions > 0);
         model.put("numberOfTransactions", numberOfTransactions);
 
-        // Calculating the number of pages. We need to convert the integer to double
-        // to get the decimal part. If decimal part is greater than 0, then we put the
-        // upper limit to the next integer
+
         int numberOfPages = (int) Math.ceil((double) numberOfTransactions / itemsPerPages);
         model.put("numberOfPages", numberOfPages);
 
-        // If there are errors when on the "Send money to a buddy" form
         if (bindingResult.hasErrors()) {
             return new ModelAndView("index", model);
         }
 
-        // The attributes that we want to pass to the transaction controller :
-        // - The buddy Id
-        // - The amount of money to send (field is a String, so we need to convert it to
-        // double)
-        redirectAttributes.addFlashAttribute("contactId", transactionCreatorDto.getContactId());
+        redirectAttributes.addFlashAttribute("userReceiverId", transactionCreatorDto.getContactId());
         redirectAttributes.addFlashAttribute("amount", transactionCreatorDto.getAmount());
+        redirectAttributes.addFlashAttribute("userReceiverName", transactionCreatorDto.getUserReceiverName());
         RedirectView redirect = new RedirectView("/create-transaction");
         return new ModelAndView(redirect);
     }

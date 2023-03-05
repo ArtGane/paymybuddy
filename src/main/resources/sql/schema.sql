@@ -27,6 +27,7 @@ CREATE TABLE transaction (
   id BIGINT AUTO_INCREMENT NOT NULL,
    user_sender BIGINT NOT NULL,
    user_receiver BIGINT NOT NULL,
+   name_receiver VARCHAR(255) NOT NULL,
    `description` VARCHAR(255) NULL,
    amount DOUBLE NOT NULL,
    creation_date date NULL,
