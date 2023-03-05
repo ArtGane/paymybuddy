@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Entity
@@ -31,6 +29,9 @@ public class Transaction {
 
     @Column(name = "user_receiver")
     private Long userReceiverId;
+
+    @Column(name = "name_receiver")
+    private String userReceiverName;
 
     @Column
     private String description;

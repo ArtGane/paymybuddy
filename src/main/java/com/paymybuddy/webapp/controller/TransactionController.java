@@ -3,6 +3,7 @@ package com.paymybuddy.webapp.controller;
 import com.paymybuddy.webapp.dto.TransactionDto;
 import com.paymybuddy.webapp.entity.Transaction;
 import com.paymybuddy.webapp.entity.User;
+import com.paymybuddy.webapp.repository.UserRepository;
 import com.paymybuddy.webapp.service.TransactionService;
 import com.paymybuddy.webapp.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -34,9 +36,11 @@ public class TransactionController {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/create-transaction")
-    public ModelAndView getTransactionForm(HttpServletRequest request) {
+    public ModelAndView getTransactionForm(HttpServletRequest request, RedirectAttributes redirectAttributes) {
 
         // Get user's parameters
         User user = userService.getLoggedUser();
@@ -49,10 +53,10 @@ public class TransactionController {
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if (inputFlashMap != null) {
 
-            Long contactId = (Long) inputFlashMap.get("contactId");
-            User contact = userService.findUserById(contactId);
-            model.put("contactPseudo", contact.getPseudo());
-            model.put("contactId", contactId);
+            Long contactId = (Long) inputFlashMap.get("userReceiverId");
+            String contactName = userRepository.findUserById(contactId).getPseudo();
+            model.put("userReceiverName", contactName);
+            model.put("userReceiverId", contactId);
 
             // Amount
             int amount = (Integer) inputFlashMap.get("amount");
@@ -84,7 +88,7 @@ public class TransactionController {
         if (bindingResult.hasErrors()) {
 
             User contact = userService.findUserById(transactionDto.getUserReceiverId());
-            model.put("receiverPseudo", contact.getPseudo());
+            model.put("userReceiverName", contact.getPseudo());
             model.put("senderId", userId);
             model.put("receiverId", contact.getId());
 
@@ -108,10 +112,8 @@ public class TransactionController {
 
         transactionService.makeTransaction(transaction);
 
-        RedirectView redirect = new RedirectView();
-        redirect.setUrl("/?transaction_success");
-
-        return new ModelAndView(redirect, new HashMap<>());
+        RedirectView redirect = new RedirectView("/home");
+        return new ModelAndView(redirect);
     }
 
 }

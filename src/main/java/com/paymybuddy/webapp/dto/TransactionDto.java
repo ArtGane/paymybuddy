@@ -17,7 +17,7 @@ public class TransactionDto {
 
     private Long userSenderId;
     private Long userReceiverId;
-
+    private String userReceiverName;
     @Size(max = 150, message = "Please make a description in 150 characters")
     private String description;
     private int amount;

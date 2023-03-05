@@ -13,6 +13,6 @@ public class TransactionCreatorDto {
 
     @NotNull(message = "Please select a contact")
     private Long contactId;
-
+    private String userReceiverName;
     private int amount;
 }
