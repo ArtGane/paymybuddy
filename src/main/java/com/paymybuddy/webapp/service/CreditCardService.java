@@ -56,28 +56,28 @@ public class CreditCardService {
         return true;
     }
 
-    public boolean withdrawMoneyAndUpdateBalance(Long userId, double amountToAdd) {
-        User user = userService.findUserById(userId);
-        if (user != null) { // Check if user is correct
-            double balance = user.getBalance();
-            double totalBalance = balance + amountToAdd;
-            creditCardRpository.updateBalance(userId, totalBalance); //Save in db
-            return true;
-        }
-        throw new UsernameNotFoundException("User was not found");
-    }
-
-    public boolean depositMoneyAndUpdateBalance(Long userId, double amountToDeposit) throws Exception {
+    public boolean withdrawMoneyAndUpdateBalance(Long userId, double amountToAdd) throws Exception {
         User user = userService.findUserById(userId);
         if (user != null) {
             double balance = user.getBalance();
-            if (amountToDeposit <= balance) {
-                double totalBalance = balance - amountToDeposit;
+        if (amountToAdd <= balance) { // Check if balance is enough
+            double totalBalance = balance - amountToAdd;
+            creditCardRpository.updateBalance(userId, totalBalance); //Save in database
+            return true;
+        }
+        throw new Exception("Amount to deposit is greater than your current account balance");
+    }
+        throw new UsernameNotFoundException("User was not found");
+    }
+
+    public boolean depositMoneyAndUpdateBalance(Long userId, double amountToAdd) {
+        User user = userService.findUserById(userId);
+        if (user != null) {
+            double balance = user.getBalance();
+            double totalBalance = balance + amountToAdd;
                 creditCardRpository.updateBalance(userId, totalBalance);
                 return true;
             }
-            throw new Exception("Amount to deposit is greater than your current account balance");
-        }
         throw new UsernameNotFoundException("User was not found");//Add some exception if something wrong
     }
 

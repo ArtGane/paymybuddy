@@ -56,7 +56,7 @@ public class User implements UserDetails {
     @PrimaryKeyJoinColumn
     private CreditCard creditCard;
 
-    private double balance;
+    private double balance = 0.0;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name ="contact",

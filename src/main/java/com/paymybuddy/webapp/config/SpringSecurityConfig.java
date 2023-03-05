@@ -33,11 +33,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests() //
-                .antMatchers("/css/**").permitAll() // Allow CSS to be loaded by everyone
+                .antMatchers("/style/**").permitAll() // Allow CSS to be loaded by everyone
                 .antMatchers("/login", "/register").permitAll() // Permit anonymous users to access these pages
                 .anyRequest().authenticated() // Every others pages must be accessed with valid credentials
                 .and() //
-                .formLogin().loginPage("/login").defaultSuccessUrl("/creditcard", true) // Login form parameters
+                .formLogin().loginPage("/login").defaultSuccessUrl("/home", true) // Login form parameters
                 .usernameParameter("email") //
                 .and() // Remember me parameters
                 .rememberMe().userDetailsService(userService).tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days token

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+<head>
+    <title>Buddy Page</title>
+    <div th:insert="frag/begin :: style"></div>
+</head>
+<body>
+<div class="container">
+    <div th:insert="frag/navbar :: navbar"></div>
+
+    <div class="row mt-2">
+        <div class="mt-2 col-7">
+            <table th:if="${hasContact}" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="col-3">Name</th>
+                    <th class="col-4">E-mail</th>
+                    <th class="col-2"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="contact : ${contactList}">
+                        <td class="align-middle color-white" th:text="|${contact.pseudo}|"></td>
+                        <td class="align-middle color-white" th:text="${contact.email}"></td>
+                        <td><a class="btn btn-danger" th:href="@{/contact?action=delete(contactId=${contact.id})}" role="button">Delete</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <tbody th:each="user : ${friend}" th:remove="tag">
+            <tr>
+                <td th:text="${user.city}" style="font-size:0.9em"></td>
+                <td th:text="${user.email}" style="font-size:0.9em;color:grey;"></td>
+                <td th:text="${user.balance}" style="font-size:0.9em"></td>
+            </tr>
+            </tbody>
+
+            <div th:if="${!hasContact}">
+                After add your first buddy, they will appear here !
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="mt-2 card">
+                <h5 class="card-header">Add a buddy</h5>
+                <div class="card-body">
+                    <form method="post" th:action="@{/contact}" th:object="${contactDto}">
+                        <label for="contactEmail" class="form-label fw-bold">E-mail address of your buddy :</label>
+                        <input th:field="*{contactEmail}" type="email" class="form-control btn-green" id="contactEmail"
+                               name="contactEmail">
+                        <small th:errors="*{contactEmail}" class="text-danger">Email address must not be empty</small>
+                        <br><input type="submit" class="btn btn-green mt-1" value="Add friend">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</body>
+</html>

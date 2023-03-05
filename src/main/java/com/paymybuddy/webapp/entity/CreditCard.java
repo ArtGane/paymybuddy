@@ -60,4 +60,10 @@ public class CreditCard {
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    //Recursivity
+    @Override
+    public String toString() {
+        return "*************";
+    }
 }

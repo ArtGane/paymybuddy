@@ -10,8 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -26,25 +25,24 @@ public class Transaction {
     private Long id;
 
     @Column(name = "user_sender")
-    @NotNull
-    private Long userSender;
+    private Long userSenderId;
 
     @Column(name = "user_receiver")
-    @NotNull
-    private Long userReceiver;
+    private Long userReceiverId;
+
+    @Column(name = "name_receiver")
+    private String userReceiverName;
 
     @Column
     private String description;
 
     @Column
-    @NotNull
     private Double amount;
 
     @Column
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
     @Column
-    @NotNull
     private Double purcent;
 
 }
