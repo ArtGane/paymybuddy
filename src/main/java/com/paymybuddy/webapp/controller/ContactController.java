@@ -26,7 +26,7 @@ public class ContactController {
 
 
     @GetMapping("/contact")
-    public ModelAndView showConnectionsPage(@RequestParam(required = false) String action,
+    public ModelAndView showContactPage(@RequestParam(required = false) String action,
                                             @RequestParam(required = false) Long contactId) {
 
         User user = userService.getLoggedUser();
@@ -34,16 +34,16 @@ public class ContactController {
         List<User> contact = user.getContact();
 
         Map<String, Object> model = new HashMap<>();
-        model.put("contactList", contact); // Show user's connections
-        model.put("contactDto", new ContactDto()); // DTO used as a Data Object for the adding form
+        model.put("contactList", contact);
+        model.put("contactDto", new ContactDto());
         model.put("pseudo", user.getPseudo());
         model.put("balance", user.getBalance());
         model.put("hasContact", !contact.isEmpty());
 
         if ((action != null && contactId != null) && action.equals("delete")) {
-            boolean removeConnection = userService.deleteContact(user.getId(), contactId);
+            boolean deleteContact = userService.deleteContact(user.getId(), contactId);
             RedirectView redirect = new RedirectView();
-            if (removeConnection) {
+            if (deleteContact) {
                 redirect.setUrl("contact" + "?delete_contact_success");
             } else {
                 redirect.setUrl("contact" + "?delete_contact_error");
@@ -55,18 +55,17 @@ public class ContactController {
     }
 
     @PostMapping("/contact")
-    public ModelAndView addConnectionsForm(@Valid ContactDto contactDto, BindingResult bindingResult) {
+    public ModelAndView addContactForm(@Valid ContactDto contactDto, BindingResult bindingResult) {
 
         User user = userService.getLoggedUser();
         Map<String, Object> model = new HashMap<>();
         List<User> contacts = user.getContact();
 
-        model.put("contactList", contacts); // Show user's connections
+        model.put("contactList", contacts);
         model.put("pseudo", user.getPseudo());
         model.put("balance", user.getBalance());
         model.put("hasContact", !contacts.isEmpty());
 
-        // If there are errors when adding the connection
         if (bindingResult.hasErrors()) {
             return new ModelAndView("contact", model);
         }
@@ -74,8 +73,8 @@ public class ContactController {
         RedirectView redirect = new RedirectView();
         try {
 
-            boolean connectionIsMade = userService.addContactByEmail(user.getId(), contactDto.getContactEmail());
-            if (connectionIsMade) {
+            boolean contactOk = userService.addContactByEmail(user.getId(), contactDto.getContactEmail());
+            if (contactOk) {
                 redirect.setUrl("contact" + "?success");
                 return new ModelAndView(redirect, new HashMap<>());
             }

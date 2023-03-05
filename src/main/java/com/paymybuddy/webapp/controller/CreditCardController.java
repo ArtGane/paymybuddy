@@ -109,7 +109,7 @@ public class CreditCardController {
 
     @PostMapping("/creditcard-withdraw")
     public ModelAndView submitCreditCardWithdrawForm(@Valid CreditCardDtoWithdraw creditCardDtoWithdraw,
-                                               BindingResult bindingResult) {
+                                               BindingResult bindingResult) throws Exception {
 
         User user = userService.getLoggedUser();
         Long userId = user.getId();
