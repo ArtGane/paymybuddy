@@ -13,25 +13,21 @@
                 <span class="underline"></span>
             </a>
         </div>
-        <div class="form-wrapper">
+        <div class="form-wrapper login-page">
             <form class="form form-signup" method="post" th:action="@{/register}" th:object="${userRegistration}">
                 <fieldset>
-                    <legend>Please, enter a pseudo, your email, password and password confirmation for sign up.</legend>
-                    <div class="input-block">
-                        <label for="pseudo">Pseudo</label>
-                        <input th:field="*{pseudo}" id="pseudo" type="text" required>
+                    <legend>Sign up for login :)</legend>
+                    <div class="input-block form-register">
+                        <input th:field="*{pseudo}" placeholder="Enter a pseudonyme here" id="pseudo" type="text" required>
                     </div>
-                    <div class="input-block">
-                        <label for="email">E-mail</label>
-                        <input th:field="*{email}" id="email" type="email" required>
+                    <div class="input-block form-register">
+                        <input th:field="*{email}" id="email" placeholder="Enter you email here" type="email" required>
                     </div>
-                    <div class="input-block">
-                        <label for="password">Password</label>
-                        <input th:field="*{password}" id="password" type="password" required>
+                    <div class="input-block form-register">
+                        <input th:field="*{password}" id="password" placeholder="Enter NEW password here" type="password" required>
                     </div>
-                    <div class="input-block">
-                        <label for="password-confirm">Confirm password</label>
-                        <input th:field="*{passwordConfirmation}" id="password-confirm" type="password" required>
+                    <div class="input-block form-register">
+                        <input th:field="*{passwordConfirmation}" placeholder="Repeat your password too confirm" id="password-confirm" type="password" required>
                     </div>
                 </fieldset>
                 <button type="submit" class="btn-signup">Continue</button>

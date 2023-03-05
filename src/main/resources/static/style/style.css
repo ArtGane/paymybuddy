@@ -1,12 +1,16 @@
-.btn-login {
-	color: #fbfdff;
-	background: #a7e245;
-	transform: translateX(-30%);
+body {
+  background: #76b852; /* fallback for old browsers */
+  background: linear-gradient(to left, #89c34a, #8DC2C9);
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.btn-signup {
-	color: #a7e245;
-	background: #fbfdff;
-	box-shadow: inset 0 0 0 2px #a7e245;
-	transform: translateX(30%);
+.btn-green {
+    border: 2px #76B851 !important;
+    border-style: solid !important;
+}
+
+.color-white {
+    color: white !important;
 }

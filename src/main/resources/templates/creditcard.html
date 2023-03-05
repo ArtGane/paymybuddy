@@ -6,6 +6,8 @@
 </head>
 <body>
 <div class="container">
+    <div th:insert="frag/navbar :: navbar"></div>
+
     <div class="row mt-2">
         <div class="col-6">
             <form method="post" th:action="@{/creditcard}" th:object="${creditCardDto}">
@@ -50,9 +52,9 @@
                 <div class="card-body">
                     <form method="post" th:action="@{/creditcard-withdraw}" th:object="${creditCardDtoWithdraw}">
                         <label for="withdrawMoney" class="form-label fw-bold">Amount to withdraw (€) :</label>
-                        <input th:field="*{withdrawMoney}" type="number" class="form-control" id="withdrawMoney"
+                        <input th:field="*{withdrawMoney}" type="number" class="form-control btn-green" th:max="${balance}"id="withdrawMoney"
                                name="withdrawMoney" min="1" placeholder="1.00" step="0.01">
-                        <input type="submit" class="btn buddy-btn-green mt-1" value="Withdraw money">
+                        <input type="submit" class="btn btn-green mt-1" value="Withdraw money">
                     </form>
                 </div>
             </div>
@@ -61,9 +63,9 @@
                 <div class="card-body">
                     <form method="post" th:action="@{/creditcard-deposit}" th:object="${creditCardDtoDeposit}">
                         <label for="depositMoney" class="form-label fw-bold">Amount to deposit (€) :</label>
-                        <input th:field="*{depositMoney}" type="number" class="form-control" id="depositMoney"
-                               name="depositMoney" min="1" th:max="${balance}" placeholder="1.00" step="0.01">
-                        <input type="submit" class="btn buddy-btn-green mt-1" value="Deposit money">
+                        <input th:field="*{depositMoney}" type="number" class="form-control btn-green" id="depositMoney"
+                               name="depositMoney" min="1" placeholder="1.00" step="0.01">
+                        <input type="submit" class="btn btn-green mt-1" value="Deposit money">
                     </form>
                 </div>
             </div>

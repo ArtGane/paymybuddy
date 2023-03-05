@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navbar" class="row">
+    <div class="col-12">
+        <nav class="navbar">
+            <div class="container-fluid">
+		              <span class="navbar-brand h1"><span class="buddy-font-green fw-bold">Pay My Buddy</span><br>
+		              <small th:text="${pseudo} + ' (balance : ' + ${balance} + ' €)'"
+                             class="fw-normal"></small></span>
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home"><i class="color-white"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/creditcard"><i class="color-white"></i>Pay Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact"><i class="color-white"></i>Buddies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><i class="color-white"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

@@ -5,22 +5,18 @@
     <div th:insert="frag/begin :: style"></div>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <div class="col-6 offset-3 p-3 mt-3 border text-center">
-            Transaction
-        </div>
-    </div>
+<div class="container login-page">
     <div class="row">
         <div class="col-6 offset-3 p-3 border bg-light">
             <form method="post" th:action="@{/process-transaction}" th:object="${transactionDto}">
 
-                <input type="hidden" id="receiverId" name="receiverId" th:value="${receiverId}">
+                <input type="hidden" id="userReceiverId" name="userReceiverId" th:value="${userReceiverId}">
 
                 <!-- To -->
                 <div class="mb-3">
                     <span class="col-2 fw-semibold">To : </span>
-                    <span class="col-6" th:text="${contactPseudo}"></span>
+                    <span class="col-6" th:text="${userReceiverName}"></span>
+                    <input type="hidden" id="userReceiverName" name="userReceiverName" th:value="${userReceiverName}">
                 </div>
 
                 <!-- Amount -->
@@ -51,14 +47,14 @@
                 <!-- Description -->
                 <div class="mb-3">
                     <label for="description">Description <small>(150 characters maximum)</small> : </label>
-                    <input th:field="*{description}" class="form-control" type="text" id="description"
+                    <input th:field="*{description}" class="form-control btn-green" type="text" id="description"
                            name="description" minlength="1" maxlength="150" size="50">
                     <small th:errors="*{description}" class="text-danger">Please set a description</small>
                 </div>
 
                 <div class="row">
                     <a class="offset-1 col-4 btn btn-danger" th:href="@{/}" role="button">Cancel</a>
-                    <button type="submit" class="offset-2 col-4 btn buddy-btn-green">Pay</button>
+                    <button type="submit" class="offset-2 col-4 btn btn-green">Pay</button>
                 </div>
             </form>
         </div>

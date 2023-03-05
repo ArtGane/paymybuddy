@@ -6,6 +6,7 @@
 
 <body>
 <div class="container">
+    <div th:insert="frag/navbar :: navbar"></div>
 
     <div th:if="${hasContact}" class="row mt-2">
         <div class="col-12">
@@ -15,20 +16,20 @@
                     <form method="post" th:action="@{/begin-transaction}" th:object="${transactionCreatorDto}">
                         <div class="row">
                             <div class="col-6">
-                                <select class="form-select" th:field="*{contactId}" name="contactId" id="contactId">
+                                <select class="form-select btn-green" th:field="*{contactId}" name="contactId">
                                     <option value="" selected>Choose one of them</option>
-                                    <option th:each="contact : ${contactList}" th:value="${contact.id}" th:text="${contact.pseudo}">Pseudo</option>
+                                    <option th:each="contact : ${contactList}" th:value="${contact.id}" th:attr="data-user-receiver-name=${contact.pseudo}" th:text="${contact.pseudo}">Pseudo</option>
                                 </select>
-                                <small th:errors="*{contactId}" class="text-danger">And select him/her</small>
+                                <small th:errors="*{contactId}" class="text-danger">Please select him/her</small>
                             </div>
 
                             <div class="col-4">
-                                <input th:field="*{amount}" class="form-control" type="number" id="amount" name="amount" min="0.1" th:max="${balance}" placeholder="1.0" step="0.1">
+                                <input th:field="*{amount}" class="form-control btn-green" type="number" id="amount" name="amount" min="0.1" th:max="${balance}" placeholder="1.0" step="0.1">
                                 <small th:errors="*{amount}" class="text-danger">Please enter a valid amount</small>
                             </div>
 
                             <div class="col-1">
-                                <input type="submit" class="btn buddy-btn-green" value="Transfer money">
+                                <input type="submit" class="btn btn-green" value="Transfer money">
                             </div>
                         </div>
 
@@ -38,7 +39,7 @@
 
         </div>
     </div>
-    <div th:if="${!hasContact}" class="row mt-2">
+    <div th:unless="${hasContact}" class="row mt-2">
         <div class="col-12">
             <div class="card">
                 <h5 class="card-header">Add a buddy</h5>
@@ -52,7 +53,7 @@
     <div th:if="${hasTransactions}" class="row mt-4">
         <div class="col-12">
             <div class="card">
-                <h5 class="card-header" th:text="'My transactions (' + ${numberOfTransactions} + ')'">My transactions (num)</h5>
+                <h5 class="card-header" th:text="'My transactions (' + ${numberOfTransactions} + ')'"></h5>
                 <div class="card-body">
                     <div class="row">
                         <table class="table table-striped">
@@ -66,22 +67,14 @@
                                 <th class="col-2 text-center">Date</th>
                             </tr>
                             </thead>
-
                             <tbody>
                             <tr th:each="transaction : ${transactions}">
-
-                                <td class="text-center" th:text="${userId} eq ${transaction.userSenderId} ? 'SENT' : 'RECEIVED'">SENT / RECEIVED</td>
-
-                                <td class="text-center" th:if="${userId} eq ${transaction.userSenderId}" th:text="${userService.returnNameFromId({transaction.userReceiverId})}"></td>
-                                <td class="text-center" th:if="${userId} neq ${transaction.userSenderId}" th:text="${userService.returnNameFromId({transaction.userSenderId})}"></td>
-
+                                <td class="text-center" th:text="${(userId eq transaction.userSenderId) ? 'SENT' : 'RECEIVED'}">SENT / RECEIVED</td>
+                                <td class="text-center" th:if="${userId eq transaction.userSenderId}" th:text="${transaction.userReceiverName}"></td>
+                                <td class="text-center" th:if="${userId eq transaction.userReceiverId}" th:text="You"></td>
                                 <td class="text-center" th:text="${transaction.description}">Transaction description</td>
-
-                                <td class="text-center text-danger fw-semibold" th:if="${userId} eq ${transaction.userSenderId}" th:text="'-' + ${transaction.amount} + '€'">-Amount €</td>
-                                <td class="text-center buddy-font-green fw-semibold" th:if="${userId} neq ${transaction.userReceiverId}" th:text="'+' + ${transaction.amount} + '€'">Amount €</td>
-
-                                <td class="text-center" th:text="${instantFormatter.formatDate({transaction.creationDate})}">Date</td>
-
+                                <td class="text-center text-danger fw-semibold" th:if="${userId eq transaction.userSenderId}" th:text="'-' + ${transaction.amount} + '€'"></td>
+                                <td class="text-center fw-semibold" th:if="${userId eq transaction.userReceiverId}" th:text="'+' + ${transaction.amount} + '€'"></td>                                <td class="text-center" th:text="${transaction.creationDate}">Date</td>
                             </tr>
                             </tbody>
 
@@ -101,8 +94,6 @@
                                     <li th:if="${#strings.equals(1, param.pageId) or param.pageId == null}" class="page-item disabled">
                                         <a class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
                                     </li>
-
-
                                     <th:block th:if="${param.pageId != null}" th:each="i: ${#numbers.sequence(1, numberOfPages)}">
                                         <li th:if="${not #strings.equals(i, param.pageId)}" class="page-item"><a class="page-link" th:text="${i}" th:href="@{/?(pageId=${i})}">1</a></li>
                                         <li th:if="${#strings.equals(i, param.pageId)}" class="page-item active" aria-current="page"><a class="page-link" th:text="${i}" th:href="@{/?(pageId=${i})}">1</a></li>
@@ -112,8 +103,6 @@
                                         <li th:if="${#strings.equals(i, 1)}" class="page-item active" aria-current="page"><a class="page-link" th:text="1" th:href="@{/?(pageId=1)}">1</a></li>
                                         <li th:if="${not #strings.equals(i, 1)}"class="page-item"><a class="page-link" th:text="${i}" th:href="@{/?(pageId=${i})}">2</a></li>
                                     </th:block>
-
-
                                     <li th:if="${(not #strings.equals(param.pageId, numberOfPages)) and param.pageId != null}" class="page-item">
                                         <a class="page-link" th:href="@{/?(pageId=${#numbers.formatInteger(param.pageId, 1)} +1 )}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
                                     </li>
@@ -121,12 +110,9 @@
                                     <li th:if="${(not #strings.equals(param.pageId, numberOfPages)) and param.pageId == null}" class="page-item">
                                         <a class="page-link" th:href="@{/?(pageId=2)}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
                                     </li>
-
                                     <li th:if="${#strings.equals(param.pageId, numberOfPages)}" class="page-item disabled">
                                         <a class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
                                     </li>
-
-
                                 </ul>
                             </nav>
 
@@ -138,18 +124,17 @@
         </div>
     </div>
 
-    <div th:if="${!hasTransactions}" class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header">My transactions</h5>
-                <div class="card-body text-center">
-                    <i class="fs-2 bi bi-emoji-frown"></i><br>
-                    Looks like you don't have any transaction yet
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    <div th:if="${!hasTransactions}" class="row mt-4">-->
+<!--        <div class="col-12">-->
+<!--            <div class="card">-->
+<!--                <h5 class="card-header">My transactions</h5>-->
+<!--                <div class="card-body text-center">-->
+<!--                    Looks like you don't have any transaction yet-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
-</div> <!-- Closing container div -->
+</div>
 </body>
 </html>

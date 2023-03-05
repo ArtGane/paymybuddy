@@ -5,38 +5,31 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="col-6 offset-3 p-3 mt-3 border buddy-bg-green text-center">
-            Welcome to Pay My Buddy
-        </div>
-    </div>
-    <section class="forms-section">
-        <div class="forms">
+    <section class="forms-section login-page w-100">
+        <div class="forms form-login">
             <div class="form-wrapper is-active">
+                <h4 class="text-center color-white">Welcome to Pay My Buddy !</h4>
                 <form class="form form-login" method="post" th:action="@{/login}" th:object="${userLogin}">
                     <fieldset>
-                        <legend>Please, enter your email and password for login.</legend>
-                        <div class="input-block">
-                            <label for="email">E-mail</label>
-                            <input th:field="*{email}" id="email" type="email" required>
-                        </div>
-                        <div class="input-block">
-                            <label for="password">Password</label>
-                            <input th:field="*{password}" id="password" type="password" required>
+                        <div class="row align-items-center">
+                            <div class="input-block col-6">
+                                <input th:field="*{email}" id="email" placeholder="Enter your email" type="email" required>
+                            </div>
+                            <div class="input-block col-6">
+                                <input th:field="*{password}" id="password" placeholder="And your password" type="password"
+                                       required>
+                            </div>
                         </div>
                     </fieldset>
-                    <button type="submit" class="btn-login" th:href="@{/home}">Login</button>
+                            <button type="submit" class="btn-login">Login</button>
                 </form>
             </div>
             <div class="form-wrapper">
-                <a th:href="@{/register}" type="button" class="switcher switcher-signup">
-                    Create an account
-                    <span class="underline"></span>
-                </a>
+                <p class="message">Not registered?
+                    <a th:href="@{/register}" type="button" class="switcher switcher-signup">Create an account</a></p>
             </div>
         </div>
+    </section>
 </div>
-</section>
-<script src="scripts/register.js"></script>
 </body>
 </html>
